@@ -2,7 +2,7 @@
  A node-js app that can be used to make the FH-Aachen Campus Office iCal subscribable in Google Calendar etc.
 
 # Build
- Set the environent variables *USER* and *PASSWORD*. *USER* should be your ``FH-Kennung``, and should be the password you use to login to *CampusOffice*.
+ Set the environment variables *USER* and *PASSWORD*. *USER* should be your ``FH-Kennung``, and *PASSWORD* should be the password you use to login to *CampusOffice*.
 
 
  Install the dependencies with
