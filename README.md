@@ -20,3 +20,10 @@ and finally run with
 
 If you clone the branch ``hassio``, you can install the server as an addon on a Home Assistant instance.
 
+# Usage
+
+To integrate the calendar, add the URL as a iCal link in your calendar app, like Google Calendar:
+
+    http://[your-ip]:3000/calendar
+
+To integrate into Google Calendar, your machine has to be accessible from the internet. If using Outlook / Apple Calendar, you can keep it on localhost. That's up to you.
