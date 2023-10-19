@@ -1,7 +1,7 @@
 import express from 'express';
 import needle from 'needle';
 import ical from 'node-ical';
-import icalgen from 'ical-generator';
+import icalgen, { ICalAlarm, ICalAlarmType } from 'ical-generator';
 
 interface VEVENT2 extends ical.VEvent {
     category: string
@@ -74,6 +74,11 @@ app.get("/calendar", async (req, res) => {
 	};
     var loginCookies: string[] = [];
 
+    var remindBefore: number = -1;
+    if(req.query["remindBefore"] && typeof req.query["remindBefore"] === "string"){
+        remindBefore = Number.parseInt(req.query["remindBefore"]);
+    }
+
     needle.post(campusOfficeRedirLink, data, {}, function (error, response) {
 		var cookies = response.headers['set-cookie'] || [];
 		cookies.forEach(function (item) {
@@ -99,7 +104,7 @@ app.get("/calendar", async (req, res) => {
                 if(event.type == "VEVENT") {
                     var tag = event.category.split(" ")[1] || "";
 
-                    newCal.createEvent({
+                    var newEvent = newCal.createEvent({
                         start: event.start,
                         end: event.end,
                         summary: tag == "" ? event.summary : tag + " " + event.summary,
@@ -107,6 +112,10 @@ app.get("/calendar", async (req, res) => {
                         location: event.location,
                         url: event.url
                     });
+
+                    if(remindBefore != -1){
+                        newEvent.alarms([{type: ICalAlarmType.display, trigger: remindBefore}]);
+                    }
                 }
             }
             res.send(newCal.toString());
